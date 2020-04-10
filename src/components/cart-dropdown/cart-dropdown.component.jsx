@@ -1,32 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import CustomButton from '../custom-button/custom-button.component';
 import { selectCartItems } from '../../redux/cart/cart.selectors';
 import CartItem from '../cart-item/cart-item.component';
-import './cart-dropdown.styles.scss';
 import { createStructuredSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
+import {
+  CartDropdownContainer,
+  CartButton,
+  CartItemsContainer,
+  EmptyMessage,
+} from './cart-dropdown.styles';
 
 const CartDropdown = ({ cartItems, history, dispatch }) => {
   return (
-    <div className="cart-dropdown">
-      <div className="cart-items">
+    <CartDropdownContainer>
+      <CartItemsContainer>
         {cartItems.length ? (
           cartItems.map((item) => <CartItem key={item.id} item={item} />)
         ) : (
-          <span className="empty-message">Your cart is empty</span>
+          <EmptyMessage>Your cart is empty</EmptyMessage>
         )}
-      </div>
-      <CustomButton
+      </CartItemsContainer>
+      <CartButton
         onClick={() => {
           dispatch(toggleCartHidden());
           history.push('/checkout');
         }}
       >
         Go To Checkout
-      </CustomButton>
-    </div>
+      </CartButton>
+    </CartDropdownContainer>
   );
 };
 
